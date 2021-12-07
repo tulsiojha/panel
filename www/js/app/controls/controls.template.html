@@ -1,0 +1,9 @@
+<div class="vh-100">
+   <!-- <button class="btn btn-primary col-12 mb-2" ng-click="createTemplate()">New</button> -->
+   <div class="d-flex shadow-lg mb-2 flex-row rounded" style="height:15%" ng-repeat="template in templates" ng-click="openTemplate($index)">
+      <div style="width:10px;" class="rounded-start" ng-style="{background:parseColorBold(template.color)}"></div>
+      <div class="card-body d-flex align-items-center justify-content-center h-100 w-100 text-center rounded-end fw-bold" ng-style="{color:parseColorBold(template.color)}">
+         <span>{{template.name}}</span>
+      </div>
+   </div>
+</div>

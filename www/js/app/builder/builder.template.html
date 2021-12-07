@@ -1,0 +1,168 @@
+<div class="d-flex flex-column vh-100">
+  <div class="shadow-lg mb-2" id="first-panel">
+    <div class="d-flex flex-row">
+      <div style="width:10px; border-top-left-radius:4px;" ng-style="{background:colorBold}"></div>
+      <a style="border-top-right-radius:4px;" class="fw-bold p-2 d-block text-decoration-none w-100" ng-style="{background:colorLight,color:colorBold}" data-bs-toggle="collapse" href="#collapseControl" aria-expanded="false" aria-controls="collapseControl">
+        Controls
+      </a>
+    </div>
+    <div class="collapse" id="collapseControl">
+      <div class="card-body">      
+        <button class="btn btn-primary mb-1" ng-click="selection('input','input')">input</button>
+        <button class="btn btn-secondary mb-1" ng-click="selection('select','select')">select</button>
+        <!-- <button class="btn btn-warning" ng-click="selection('multiple','multiple')">multiple choice</button> -->
+        <!-- <button class="btn btn-dark mb-1" ng-click="selection('radio','radio')">radio</button> -->
+        <button class="btn btn-danger mb-1" ng-click="selection('file','file')">file</button>
+        <button class="btn btn-success mb-1" ng-click="selection('image','image')">image</button>
+        <button class="btn btn-warning mb-1" ng-click="selection('sign','sign')">sign</button>
+      </div>
+    </div>
+    
+  </div>
+  <div class="shadow-lg mb-2">
+    <div class="d-flex flex-row">
+      <div style="width:10px; border-top-left-radius:4px;" ng-style="{background:colorBold}"></div>
+      <a style="border-top-right-radius:4px;" class="fw-bold p-2 d-block text-decoration-none w-100" ng-style="{background:colorLight,color:colorBold}" data-bs-toggle="collapse" href="#collapseTemplateName" aria-expanded="false" aria-controls="collapseTemplateName">
+        Template name
+      </a>
+    </div>
+    <div class="collapse" id="collapseTemplateName">
+      <div class="card-body">
+        <input id="t_n" class="form-control" placeholder="template name" ng-model="form_name"/>
+      </div>  
+    </div>
+  </div>
+
+  <div class="shadow-lg mb-2" id="second-panel">
+    <div class="d-flex flex-row">
+      <div style="width:10px; border-top-left-radius:4px;" ng-style="{background:colorBold}"></div>
+      <a style="border-top-right-radius:4px;" class="fw-bold p-2 d-block text-decoration-none w-100" ng-style="{background:colorLight,color:colorBold}" data-bs-toggle="collapse" href="#collapseContent" aria-expanded="false" aria-controls="collapseContent">
+        Content
+      </a>
+    </div>
+    <div class="collapse" id="collapseContent">
+      <div class="card-body">
+        <div ng-click="selectedElement($index)" ng-repeat="ele in elementsToRender" class="render-element">
+          <div ng-switch="ele.type">
+            <div ng-switch-when="input">
+              <label class="form-label">{{elementsToRender[$index].name}}</label>
+              <div ng-class="ele.class">
+                <input class="form-control" type="text" ng-attr-id="{{ele.element_id}}" ng-model="values[elementsToRender[$index].element_id]"/>
+              </div>
+            </div>
+            
+            <div ng-switch-when="select">
+              <label class="form-label">{{elementsToRender[$index].name}}</label>
+              <select ng-class="ele.class" ng-change="selectChanged($index)" class="form-select" ng-attr-id="{{ele.element_id}}" ng-model="values[elementsToRender[$index].element_id]">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+            </select>
+            </div>
+
+            <div ng-switch-when="file">
+              <label class="form-label">{{elementsToRender[$index].name}}</label>
+              <div ng-class="ele.class">
+                <!-- <label for="files">Add files</label> -->
+                <input  ng-model="f" multiple type="file" id="files"  onchange="angular.element(this).scope().onFileChanges(this)"/>
+               <!-- <div class="flex flex-column">
+                <div ng-repeat="file in files" class="">
+                  {{file}}
+                </div> -->
+               <!-- </div> -->
+              </div>
+            </div>
+
+            <div ng-switch-when="image">
+                <div class="d-flex flex-row justify-content-between align-items-center">
+                <label class="form-label">{{elementsToRender[$index].name}}</label>
+                  <img src="img/edit.svg" class="" height="15px" width="15px" ng-click="chooseImage($index)"/>
+                </div>
+              <div ng-class="ele.class" class="card p-2 position-relative"><img ng-src="{{values[elementsToRender[$index].element_id]}}" src="img/user.svg" /></div>
+              <!-- {{values[elementsToRender[$index].element_id]}} -->
+            </div>
+
+            <div style="min-width: 50%;" ng-switch-when="sign">
+              <div class="mt-2 d-flex flex-row justify-content-between align-items-center">
+                <label class="form-label">{{elementsToRender[$index].name}}</label>
+                  <a data-bs-toggle="modal" href="#exampleModal" ng-click="onEditSignClicked($index)" style="background-image: url('img/edit.svg'); background-repeat: no-repeat; background-size: contain; height: 15px; width: 15px;" class="d-inline-block" height="15px" width="15px"></a>
+                </div>
+              <div ng-class="ele.class" class="d-flex flex-row justify-content-between card p-2">
+                <img class="w-100 h-100" ng-src="{{values[elementsToRender[$index].element_id]}}"/>
+              </div>
+            </div>
+
+            <div class="" ng-switch-when="radio">
+              <label class="form-label d-block mt-2">{{elementsToRender[$index].name}}</label>
+              <input ng-class="ele.class" class="form-check-input" type="radio" ng-attr-id="{{ele.element_id}}"/>
+            </div>
+            
+          </div>
+        </button>
+      </div>
+    </div>
+    </div>
+</div>
+<div class="shadow-lg" id="third-panel">
+  <div class="d-flex flex-row">
+    <div style="width:10px; border-top-left-radius:4px;" ng-style="{background:colorBold}"></div>
+    <a style="border-top-right-radius:4px;" class="fw-bold p-2 d-block text-decoration-none w-100" ng-style="{background:colorLight,color:colorBold}" data-bs-toggle="collapse" href="#collapseProperties" aria-expanded="false" aria-controls="collapseProperties">
+      Properties
+    </a>
+  </div>
+  <div class="collapse" id="collapseProperties">
+    <div class="card-body">
+      <div class="d-inline-flex flex-row align-items-center overflow-auto" ng-show="currentElement >= 0">
+        <div>Name: <input class="form-control" ng-model="elementsToRender[currentElement].name"/></div>
+        <div class="ms-1">
+          <label for="width-chooser" class="col">Width:</label> 
+          <select id="width-chooser" class="form-select" ng-model="selectedWidth" ng-change="onChangeWidth()" ng-options="option.value for option in width track by option.id">
+            
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div>Height in px: {{currentElement.ele.clientHeight}}</div> -->
+</div>
+<button class="fw-bold btn mt-1" ng-style="{background:colorLight,color:colorBold}" ng-click="onSaveClicked()">Save</button>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Signature panel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <canvas id="signature-pad" class="signature-pad" width=400 height=200></canvas>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" ng-click="onCloseSignatureModal()">Clear</button>
+        <button type="button" class="btn btn-primary" ng-click="onSaveSignatureModal()" data-bs-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="progressModal" tabindex="-1" aria-labelledby="progressModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="progressModalLabel">Error</h5>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex justify-content-center">
+          <div>Form template name already Exist. Please enter new name.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
