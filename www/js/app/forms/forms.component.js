@@ -1,9 +1,9 @@
-angular.module("controls").component("controls", {
-  templateUrl: "./js/app/controls/controls.template.html",
+angular.module("forms").component("forms", {
+  templateUrl: "./js/app/forms/forms.template.html",
   controller: function ($scope, $state, $http) {
     $scope.templates = [];
 
-    $scope.form_name = "New Form";
+    $scope.form_name = "Forms";
 
     const getColorWithAlpha = (color, alpha) => {
       var hsl = color.replace("hsl(", "").replace(")", "").split(",");
@@ -33,15 +33,15 @@ angular.module("controls").component("controls", {
     };
 
     const init = () => {
-      databaseHandler.listFormTemplates(function (result) {
-        // var temp = []
+      databaseHandler.listFormWithTemplate(function (result) {
         for (let i = 0; i < result.rows.length; i++) {
-          $scope.templates.push(result.rows.item(i));
+          $scope.templates.push({
+            templateName: result.rows.item(i).name,
+            formJson: JSON.parse(result.rows.item(i).formJson),
+          });
         }
-
         $scope.$apply();
-
-        console.log($scope.templates);
+        console.log("formWithTemplate", $scope.templates);
       });
     };
 
@@ -53,14 +53,6 @@ angular.module("controls").component("controls", {
       },
       false
     );
-
-    $scope.openTemplate = function (index) {
-      $state.go("derived", {
-        id: $scope.templates[index].id,
-        color: $scope.templates[index].color,
-      });
-      // console.log($scope.templates);
-    };
 
     // $scope.createTemplate=function() {
     //   var random = Math.floor((Math.random() * 6) + 1)-1

@@ -2,12 +2,12 @@ const fileHandler={
     copyFileInit:function(filePath,onInitCopyFile, onErrorInitCopyFile) {
         window.resolveLocalFileSystemURL(filePath, entry => {
             // console.log(entry);
-            console.log("checking file path",entry.name);
+            // console.log("checking file path",entry.name);
             fileHandler.init(function(rootEntry) {
                 onInitCopyFile(entry, rootEntry)
             })
         },(error)=>{
-            window.resolveLocalFileSystemURL("file://"+filePath, entries=>{
+            window.resolveLocalFileSystemURL(filePath, entries=>{
                 fileHandler.init(function(rootEntry) {
                     onInitCopyFile(entries, rootEntry)
                 })

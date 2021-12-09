@@ -1,10 +1,55 @@
-<div>
-   <!-- <button class="btn btn-primary col-12 mb-2" ng-click="createTemplate()">New</button> -->
-   <div class="d-flex shadow mb-2 flex-row rounded" ng-repeat="template in templates" ng-click="openTemplate($index)">
-      <div style="width:10px;" class="rounded-start" ng-style="{background:parseColorBold(template.color)}"></div>
-      <div class="card-body text-center rounded-end fw-bold" ng-style="{background:parseColorLight(template.color),color:parseColorBold(template.color)}">
-         {{template.name}}
+<div class="navbar navbar-light bg-light fixed-top">
+  <div class="d-flex align-items-center justify-content-between w-100 px-2">
+    <div class="d-flex flex-row align-items-center">
+      <button
+        class="navbar-toggler me-2"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div>{{form_name}}</div>
+    </div>
+  </div>
+</div>
+  <div>
+    <!-- <button class="btn btn-primary col-12 mb-2" ng-click="createTemplate()">New</button> -->
+    <div
+      class="d-flex shadow mb-2 flex-row rounded"
+      ng-repeat="template in templates"
+      ng-click="openTemplate($index)"
+    >
+      <div
+        style="width: 10px"
+        class="rounded-start"
+        ng-style="{background:parseColorBold(template.color)}"
+      ></div>
+      <div
+        class="card-body text-center rounded-end fw-bold"
+        ng-style="{background:parseColorLight(template.color),color:parseColorBold(template.color)}"
+      >
+        {{template.name}}
       </div>
-   </div>
-   <div ng-click="createTemplate()" class="position-fixed bottom-0 end-0 m-4 shadow-lg rounded-circle fab-button" style="background-image: url('img/add.svg'); background-size: contain; height: 48px; width: 48px;"></div>
+    </div>
+    <div
+      ng-click="createTemplate()"
+      class="
+        position-fixed
+        bottom-0
+        end-0
+        m-4
+        shadow-lg
+        rounded-circle
+        fab-button
+      "
+      style="
+        background-image: url('img/add.svg');
+        background-size: contain;
+        height: 48px;
+        width: 48px;
+      "
+    ></div>
+  </div>
 </div>

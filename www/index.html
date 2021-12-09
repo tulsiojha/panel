@@ -1,69 +1,102 @@
 <!DOCTYPE html>
 <html ng-app="Home">
-
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" viewport-fit="cover">
-    <link rel="stylesheet" href="./css/bootstrap.min.css" type="text/css">
-    
-    <link rel="stylesheet" href="./css/index.css" type="text/css">
-    <link rel="stylesheet" href="./css/bootstrap-icons.css" type="text/css">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+      viewport-fit="cover"
+    />
+    <link rel="stylesheet" href="./css/bootstrap.min.css" type="text/css" />
 
+    <link rel="stylesheet" href="./css/index.css" type="text/css" />
+    <link rel="stylesheet" href="./css/bootstrap-icons.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css"
+    />
     <script src="./js/angular.min.js"></script>
-    
+
     <script src="./js/app/app.module.js"></script>
     <script src="./js/release/angular-ui-router.min.js"></script>
     <script src="./js/app/builder/builder.module.js"></script>
     <script src="./js/app/builder/builder.component.js"></script>
-    <script src="./js/app/form/form.module.js"></script>
-    <script src="./js/app/form/form.component.js"></script>
+    <script src="./js/app/derived/derived.module.js"></script>
+    <script src="./js/app/derived/derived.component.js"></script>
     <script src="./js/app/controls/controls.module.js"></script>
     <script src="./js/app/controls/controls.component.js"></script>
     <script src="./js/app/templates/templates.module.js"></script>
     <script src="./js/app/templates/templates.component.js"></script>
-
+    <script src="./js/app/forms/forms.module.js"></script>
+    <script src="./js/app/forms/forms.component.js"></script>
 
     <script src="./js/app/databaseHandler.js"></script>
     <script src="./js/app/fileHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
-
-
   </head>
 
   <body ng-controller="mainCtrl">
-    <nav class="navbar navbar-light bg-light fixed-top">
+    <nav class="navbar navbar-light">
       <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="ms-2 text-capitalize" style="flex:1;"><span>{{title}}</span></div>
-        <div class="offcanvas offcanvas-start w-50" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div
+          class="offcanvas offcanvas-start w-50"
+          tabindex="-1"
+          id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel"
+        >
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Panel</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close text-reset"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li class="nav-item">
-                <a class="nav-link" ng-click="hideOffCanvas()" ui-sref="templates" ui-sref-active="active" aria-current="page">Templates</a>
+                <a
+                  class="nav-link"
+                  ng-click="hideOffCanvas()"
+                  ui-sref="templates"
+                  ui-sref-active="active"
+                  aria-current="page"
+                  >Templates</a
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link" ng-click="hideOffCanvas()" ui-sref="form" ui-sref-active="active">Form</a>
+                <a
+                  class="nav-link"
+                  ng-click="hideOffCanvas()"
+                  ui-sref="New Form"
+                  ui-sref-active="active"
+                  >New Form</a
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link" ng-click="hideOffCanvas()" ui-sref="New Form" ui-sref-active="active">New Form</a>
+                <a
+                  class="nav-link"
+                  ng-click="hideOffCanvas()"
+                  ui-sref="forms"
+                  ui-sref-active="active"
+                  >Form</a
+                >
               </li>
             </ul>
           </div>
         </div>
       </div>
     </nav>
-    <div class="container pb-2" style="padding-top:60px;" ui-view>
-      
-
-    </div>
+    <div class="container pb-2" style="padding-top: 60px" ui-view></div>
     <script src="cordova.js"></script>
     <script src="./js/bootstrap.bundle.min.js"></script>
-
   </body>
-
 </html>

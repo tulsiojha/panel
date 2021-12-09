@@ -1,0 +1,17 @@
+<div class="navbar navbar-light bg-light fixed-top">
+   <div class="d-flex align-items-center justify-content-between w-100 px-2">
+      <div class="d-flex flex-row align-items-center">
+         <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+         </button>
+         <div>{{form_name}}</div>
+      </div>
+   </div>
+</div>
+<div class="vh-100">
+   <div class="card" ng-repeat="t in templates">
+      {{t.templateName}}
+   </div>
+</div>
+</div>
