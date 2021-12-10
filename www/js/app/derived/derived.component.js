@@ -409,6 +409,7 @@ angular.module("derived").component("derived", {
       });
     };
 
+    
     $scope.onCloseSignatureModal = function () {
       signaturePad.clear();
     };
@@ -561,7 +562,7 @@ angular.module("derived").component("derived", {
     };
 
     $scope.formatName = function (fileName) {
-      return fileName.length > 50 ? fileName.substring(0, 49) : fileName;
+      return fileName.length > 50 ? fileName.substring(0, 47)+"..." : fileName;
     };
   },
 });
