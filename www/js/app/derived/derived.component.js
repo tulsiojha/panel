@@ -111,7 +111,8 @@ angular.module("derived").component("derived", {
 
             await Promise.all(
               JSON.parse(uri).map(async (file) => {
-                const fileUri = await resolveFilePath(file);
+                // const fileUri = await resolveFilePath(file);
+                const fileUri = await resolveFilePathTest(file);
                 tempFiles.push(fileUri);
               })
             );
@@ -127,7 +128,15 @@ angular.module("derived").component("derived", {
         }
       });
     };
-
+    const resolveFilePathTest = async (file) => {
+      return new Promise((resolve, reject) => {
+        filecopy.resolveName(file, function(success) {
+          resolve({ uri: file, name: success })
+        },function(error) {
+          resolve(null)
+        })
+      });
+    };
     const resolveFilePath = async (file) => {
       return new Promise((resolve, reject) => {
         window.FilePath.resolveNativePath(
@@ -274,8 +283,8 @@ angular.module("derived").component("derived", {
             value.data.map(async (file) => {
               if (file != null) {
                 console.log(typeof file, file);
-                if (file.uri.startsWith("file:///")) {
-                  const fileName = await copyFile(file.uri);
+                if (file.uri.startsWith("content://")) {
+                  const fileName = await copyFileTest(file.uri);
                   if (fileName != null) {
                     tempFile.push({ uri: fileName, name: fileName });
                   }
@@ -409,6 +418,36 @@ angular.module("derived").component("derived", {
       });
     };
 
+    const copyFileTest = async (filePath) => {
+      return new Promise(async (resolve, reject) => {
+        console.log("getFilePath", filePath);
+        fileHandler.init(function (entry) {
+          fileHandler.createDirectory(
+            "files",
+            entry,
+            function (subDirEntry) {
+              fileHandler.createDirectory(
+                "template_" + $scope.formTemplateId,
+                subDirEntry,
+                function (templateDir) {
+                  filecopy.copyFile(filePath, templateDir.nativeURL, function(success) {
+                    resolve(success)
+                  },function(error) {
+                    resolve(null)
+                  })
+                },
+                function (error) {
+                  resolve(null);
+                }
+              );
+            },
+            function (error) {
+              resolve(null);
+            }
+          );
+        });
+      });
+    };
     
     $scope.onCloseSignatureModal = function () {
       signaturePad.clear();
