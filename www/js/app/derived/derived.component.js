@@ -1,11 +1,14 @@
 angular.module("derived").component("derived", {
   templateUrl: "./js/app/derived/derived.template.html",
-  controller: function ($scope, $rootScope, $state, $stateParams) {
+  controller: function ($scope, $rootScope, $state, $stateParams, panelUtils) {
     $scope.form_name = "";
+
+    $scope.panelUtils = panelUtils;
 
     $scope.elementsToRender = [];
     $scope.currentElement;
     $scope.signature = "";
+    $scope.marker;
     // $scope.image="";
     $scope.colorBold = "hsl(216, 98%, 52%)";
     $scope.colorLight = "hsl(216, 98%, 52%, 40%)";
@@ -28,24 +31,6 @@ angular.module("derived").component("derived", {
       { id: "11", value: "col-12" },
     ];
 
-    $scope.mediaIcons = {
-      mp3: "music.png",
-      wav: "music.png",
-      mp4: "video.png",
-      mpg: "video.png",
-      mpeg: "video.png",
-      mkv: "video.png",
-      png: "image.png",
-      jpg: "image.png",
-      jpeg: "image.png",
-      gif: "image.png",
-      bmp: "image.png",
-      svg: "image.png",
-      pdf: "pdf.png",
-      zip: "zip.png",
-      "7z": "zip.png",
-      others: "other.png",
-    };
 
     $scope.formTemplateId = $stateParams.id;
 
@@ -67,6 +52,12 @@ angular.module("derived").component("derived", {
       document.getElementById("progressModal"),
       {}
     );
+
+    var mapModal = new bootstrap.Modal(
+      document.getElementById("mapModal"),
+      {keyboard: false}
+    );
+
     var errorModal = new bootstrap.Modal(
       document.getElementById("errorModal"),
       {}
@@ -76,7 +67,7 @@ angular.module("derived").component("derived", {
       $scope.values[$scope.elementsToRender[pos].name] = {
         name: $scope.elementsToRender[pos].name,
         type: "image",
-        id: $scope.elementsToRender[pos].id,
+        id: $scope.elementsToRender[pos].id + "_" + Date.now(),
         data: "data:image/jpeg;base64," + response,
       };
       console.log($scope.values);
@@ -119,7 +110,7 @@ angular.module("derived").component("derived", {
             console.log("file uris...: ", tempFiles);
             $scope.values[$scope.elementsToRender[pos].name] = {
               name: $scope.elementsToRender[pos].name,
-              id: $scope.elementsToRender[pos].id,
+              id: $scope.elementsToRender[pos].id + "_" + Date.now(),
               type: "file",
               data: tempFiles,
             };
@@ -130,9 +121,9 @@ angular.module("derived").component("derived", {
     };
     const resolveFilePathTest = async (file) => {
       return new Promise((resolve, reject) => {
-        filecopy.resolveName(file, function(success) {
+        filecopy.resolveName(file, function (success) {
           resolve({ uri: file, name: success })
-        },function(error) {
+        }, function (error) {
           resolve(null)
         })
       });
@@ -162,7 +153,7 @@ angular.module("derived").component("derived", {
     $scope.inputChanged = (data, pos) => {
       $scope.values[$scope.elementsToRender[pos].name] = {
         name: $scope.elementsToRender[pos].name,
-        id: $scope.elementsToRender[pos].id,
+        id: $scope.elementsToRender[pos].id + "_" + Date.now(),
         type: "input",
         data: data,
       };
@@ -171,7 +162,7 @@ angular.module("derived").component("derived", {
     $scope.selectChanged = (data, pos) => {
       $scope.values[$scope.elementsToRender[pos].name] = {
         name: $scope.elementsToRender[pos].name,
-        id: $scope.elementsToRender[pos].id,
+        id: $scope.elementsToRender[pos].id + "_" + Date.now(),
         type: "select",
         data: data,
       };
@@ -223,7 +214,7 @@ angular.module("derived").component("derived", {
       saveNext();
     };
 
-    const handlePictures = async (json) => {};
+    const handlePictures = async (json) => { };
 
     const saveNext = async () => {
       // progressModal.show()
@@ -300,26 +291,36 @@ angular.module("derived").component("derived", {
         }
       }
 
-      databaseHandler.updateForm(
-        JSON.stringify(tempJson),
+      // databaseHandler.updateForm(
+      //   JSON.stringify(tempJson),
+      //   $scope.formTemplateId,
+      //   function (result) {
+      //     console.log("update or insert...");
+      //     if (result.rowsAffected === 0) {
+      //       databaseHandler.insertForm(
+      //         $scope.formTemplateId,
+      //         JSON.stringify(tempJson),
+      //         function (result) {
+      //           console.log("insert form..");
+      //           // progressModal.hide()
+      //           $state.go("New Form");
+      //         }
+      //       );
+      //     } else {
+      //       console.log("updated form....");
+      //       $state.go("New Form");
+      //       // }, 1000);
+      //     }
+      //   }
+      // );
+
+      databaseHandler.insertForm(
         $scope.formTemplateId,
+        JSON.stringify(tempJson),
         function (result) {
-          console.log("update or insert...");
-          if (result.rowsAffected === 0) {
-            databaseHandler.insertForm(
-              $scope.formTemplateId,
-              JSON.stringify(tempJson),
-              function (result) {
-                console.log("insert form..");
-                // progressModal.hide()
-                $state.go("New Form");
-              }
-            );
-          } else {
-            console.log("updated form....");
-            $state.go("New Form");
-            // }, 1000);
-          }
+          console.log("insert form..");
+          // progressModal.hide()
+          $state.go("New Form");
         }
       );
     };
@@ -430,9 +431,9 @@ angular.module("derived").component("derived", {
                 "template_" + $scope.formTemplateId,
                 subDirEntry,
                 function (templateDir) {
-                  filecopy.copyFile(filePath, templateDir.nativeURL, function(success) {
+                  filecopy.copyFile(filePath, templateDir.nativeURL, function (success) {
                     resolve(success)
-                  },function(error) {
+                  }, function (error) {
                     resolve(null)
                   })
                 },
@@ -448,7 +449,7 @@ angular.module("derived").component("derived", {
         });
       });
     };
-    
+
     $scope.onCloseSignatureModal = function () {
       signaturePad.clear();
     };
@@ -463,8 +464,8 @@ angular.module("derived").component("derived", {
       var data = signaturePad.toDataURL("image/png");
       $scope.values[$scope.elementsToRender[$scope.signIndex].name] = {
         name: $scope.elementsToRender[$scope.signIndex].name,
-        id: $scope.elementsToRender[$scope.signIndex].id,
-        type: "sign",
+        id: $scope.elementsToRender[$scope.signIndex].id + "_" + Date.now(),
+        type: $scope.elementsToRender[$scope.signIndex].type,
         data: data,
       };
       console.log($scope.values);
@@ -514,14 +515,24 @@ angular.module("derived").component("derived", {
         }
       );
 
-      databaseHandler.listFormByFormTemplateID(
-        $scope.formTemplateId,
-        function (result) {
-          if (result.rows.length > 0) {
-            loadValues(result.rows.item(0));
-          }
-        }
-      );
+      // databaseHandler.listFormByFormTemplateID(
+      //   $scope.formTemplateId,
+      //   function (result) {
+      //     if (result.rows.length > 0) {
+      //       loadValues(result.rows.item(0));
+      //     }
+      //   }
+      // );
+
+      var myModal = document.getElementById('mapModal')
+      myModal.addEventListener('shown.bs.modal', function () {
+        $scope.onInit()
+        console.log("mapModal Show");
+        setTimeout(function () {
+          $scope.map.invalidateSize();
+        }, 1);
+      })
+
     };
 
     const loadValues = async (item) => {
@@ -586,22 +597,141 @@ angular.module("derived").component("derived", {
 
     init();
 
+
+
+
+
+    $scope.onScanClicked = function (index) {
+      cordova.plugins.barcodeScanner.scan(
+        function (result) {
+
+          console.log(result);
+          $scope.values[$scope.elementsToRender[index].name] = {
+            name: $scope.elementsToRender[index].name,
+            id: $scope.elementsToRender[index].id + "_" + Date.now(),
+            type: $scope.elementsToRender[index].type,
+            data: { text: result.text, format: result.format },
+          };
+
+          $scope.$apply()
+        },
+        function (error) {
+          alert("Scanning failed: " + error);
+        },
+        {
+          preferFrontCamera: false, // iOS and Android
+          showFlipCameraButton: true, // iOS and Android
+          showTorchButton: true, // iOS and Android
+          torchOn: false, // Android, launch with the torch switched on (if available)
+          saveHistory: true, // Android, save scan history (default false)
+          prompt: "Place a barcode inside the scan area", // Android
+          resultDisplayDuration: 500, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+          // formats : "QR_CODE,PDF_417", // default: all but PDF_417 and RSS_EXPANDED
+          orientation: "portrait", // Android only (portrait|landscape), default unset so it rotates with the device
+          disableAnimations: true, // iOS
+          disableSuccessBeep: false // iOS and Android
+        }
+      );
+    }
+
     $scope.onCancelClicked = function () {
       $state.go("New Form");
     };
 
-    $scope.getExtension = function (file) {
-      return file.slice(((file.lastIndexOf(".") - 1) >>> 0) + 2);
+    $scope.mapIndex = -1;
+
+    $scope.onEditMapClicked = function (index) {
+      $scope.mapIndex = index;
     };
 
-    $scope.getIcon = function (extension) {
-      return $scope.mediaIcons[extension]
-        ? $scope.mediaIcons[extension]
-        : $scope.mediaIcons["others"];
+    $scope.onSaveMap = function () {
+
+      console.log($scope.marker.getLatLng());
+      $scope.values[$scope.elementsToRender[$scope.mapIndex].name] = {
+        name: $scope.elementsToRender[$scope.mapIndex].name,
+        id: $scope.elementsToRender[$scope.mapIndex].id + "_" + Date.now(),
+        type: $scope.elementsToRender[$scope.mapIndex].type,
+        data: { lat: $scope.marker.getLatLng().lat, lng: $scope.marker.getLatLng().lng },
+      };
+    }
+
+
+
+    document.addEventListener("deviceready", function () {
+
+      // $scope.map;
+      // $scope.map.invalidateSize();
+      //  onDeviceReady()
+
+    }, false)
+
+
+    $scope.onInit = function () {
+      // if(!$scope.map)
+      try {
+        $scope.map = L.map('map').setView([0, 0], 13);
+      } catch (error) {
+        console.log(error);
+      }
+      console.log("init map");
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo($scope.map);
+      onDeviceReady()
+
+      // setTimeout(function () {
+      //   $scope.map.invalidateSize();
+      // }, 1);
+    }
+
+
+
+
+    function onDeviceReady() {
+      cordova.plugins.locationAccuracy.request(function (success) {
+        console.log("Successfully requested accuracy: " + success.message);
+        handleSuccess();
+      }, function (error) {
+        console.error("Accuracy request failed: error code=" + error.code + "; error message=" + error.message);
+        if (error.code !== cordova.plugins.locationAccuracy.ERROR_USER_DISAGREED) {
+          if (window.confirm("Failed to automatically set Location Mode to 'High Accuracy'. Would you like to switch to the Location Settings page and do this manually?")) {
+            cordova.plugins.diagnostic.switchToLocationSettings();
+          }
+        }
+      }, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
+    }
+
+    var onGetLocation = function (position) {
+      // position.coords.latitude + "&lon=" + position.coords.longitude
+      
+      if(!$scope.marker){
+        $scope.map.flyTo([position.coords.latitude, position.coords.longitude], 13)
+        $scope.marker = L.marker([position.coords.latitude, position.coords.longitude], { draggable: 'true', autoPan: true }).addTo($scope.map);
+      }else{
+        $scope.map.flyTo([$scope.marker.getLatLng().lat, $scope.marker.getLatLng().lng], 13)
+      }
+        
+
+
+      $scope.map.on("click", function (e) {
+        $scope.marker.setLatLng([e.latlng.lat, e.latlng.lng], { draggable: 'true', autoPan: true });
+      });
     };
 
-    $scope.formatName = function (fileName) {
-      return fileName.length > 50 ? fileName.substring(0, 47)+"..." : fileName;
-    };
+
+
+
+    // onError Callback receives a PositionError object
+    //
+    var onLocationFailed = function (error) {
+      alert('code: ' + error.code + '\n' +
+        'message: ' + error.message + '\n');
+    }
+
+
+    const handleSuccess = () => {
+      navigator.geolocation.getCurrentPosition(onGetLocation, onLocationFailed);
+    }
+
   },
 });

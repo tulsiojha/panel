@@ -312,11 +312,6 @@
   "resolved" "https://registry.npmjs.org/cordova-plugin-camera/-/cordova-plugin-camera-5.0.3.tgz"
   "version" "5.0.3"
 
-"cordova-plugin-compat@^1.2.0":
-  "integrity" "sha1-C8ZXVyduvZIMASzpIOJ0F3V2Nz4="
-  "resolved" "https://registry.npmjs.org/cordova-plugin-compat/-/cordova-plugin-compat-1.2.0.tgz"
-  "version" "1.2.0"
-
 "cordova-plugin-device@^2.0.3":
   "integrity" "sha512-Jb3V72btxf3XHpkPQsGdyc8N6tVBYn1vsxSFj43fIz9vonJDUThYPCJJHqk6PX6N4dJw6I4FjxkpfCR4LDYMlw=="
   "resolved" "https://registry.npmjs.org/cordova-plugin-device/-/cordova-plugin-device-2.0.3.tgz"
@@ -344,6 +339,11 @@
   "integrity" "sha512-DwKuH5tXhZJImU/rHDzQhG3bY2ihAUw5QqdNllso96MZ9TQTAbFvKPLppuJwx21XxYS2g3uB9R17AXEEme+sKA=="
   "resolved" "https://registry.npmjs.org/cordova-plugin-filepath/-/cordova-plugin-filepath-1.6.0.tgz"
   "version" "1.6.0"
+
+"cordova-plugin-geolocation@^4.1.0":
+  "integrity" "sha512-y5io/P10xGMxSn2KEqfv/fExK47eA1pmSonJdmDqDsaSADV9JpgdPx0mUSA08+5pzma/OS9R0LoODeDPx7Jvjg=="
+  "resolved" "https://registry.npmjs.org/cordova-plugin-geolocation/-/cordova-plugin-geolocation-4.1.0.tgz"
+  "version" "4.1.0"
 
 "cordova-plugin-request-location-accuracy@^2.3.0":
   "integrity" "sha512-Rgr3DnRC8PUQyxmsOs76KxvDJB28MoCoYFfceiGn9Nzwsg6nAJmAwEtrYzm283x1cDhBPvzkZ6lzuldTkmnWjA=="
@@ -610,6 +610,11 @@
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
 
+"function-bind@^1.1.1":
+  "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
+  "resolved" "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz"
+  "version" "1.1.1"
+
 "get-stream@^5.0.0":
   "integrity" "sha512-nBF+F1rAZVCu/p7rjzgA+Yb4lfYXrpl7a6VmJrU8wF9I1CKvP/QwPNZHnOlwbTkY6dvtFIzFMSyQXbLoTQPRpA=="
   "resolved" "https://registry.npmjs.org/get-stream/-/get-stream-5.2.0.tgz"
@@ -624,7 +629,7 @@
   dependencies:
     "is-glob" "^4.0.1"
 
-"glob@^7.1.2", "glob@^7.1.6":
+"glob@^7.0.0", "glob@^7.1.2", "glob@^7.1.6":
   "integrity" "sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q=="
   "resolved" "https://registry.npmjs.org/glob/-/glob-7.2.0.tgz"
   "version" "7.2.0"
@@ -645,6 +650,13 @@
   "integrity" "sha1-tdRU3CGZriJWmfNGfloH87lVuv0="
   "resolved" "https://registry.npmjs.org/has-flag/-/has-flag-3.0.0.tgz"
   "version" "3.0.0"
+
+"has@^1.0.3":
+  "integrity" "sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw=="
+  "resolved" "https://registry.npmjs.org/has/-/has-1.0.3.tgz"
+  "version" "1.0.3"
+  dependencies:
+    "function-bind" "^1.1.1"
 
 "http-errors@~1.7.2", "http-errors@1.7.2":
   "integrity" "sha512-uUQBt3H/cSIVfch6i1EuPNy/YsRSOUBXTVfZ+yR7Zjez3qjBz6i9+i4zjNaoqcoFVI4lQJ5plg63TvGfRSDCRg=="
@@ -687,10 +699,22 @@
   "resolved" "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz"
   "version" "2.0.4"
 
+"interpret@^1.0.0":
+  "integrity" "sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA=="
+  "resolved" "https://registry.npmjs.org/interpret/-/interpret-1.4.0.tgz"
+  "version" "1.4.0"
+
 "ipaddr.js@1.9.1":
   "integrity" "sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g=="
   "resolved" "https://registry.npmjs.org/ipaddr.js/-/ipaddr.js-1.9.1.tgz"
   "version" "1.9.1"
+
+"is-core-module@^2.2.0":
+  "integrity" "sha512-vd15qHsaqrRL7dtH6QNuy0ndJmRDrS9HAM1CAiSifNUFv4x1a0CCVsj18hJ1mShxIG6T2i1sO78MkP56r0nYRw=="
+  "resolved" "https://registry.npmjs.org/is-core-module/-/is-core-module-2.8.0.tgz"
+  "version" "2.8.0"
+  dependencies:
+    "has" "^1.0.3"
 
 "is-extglob@^2.1.1":
   "integrity" "sha1-qIwCU1eR8C7TfHahueqXc8gz+MI="
@@ -957,10 +981,23 @@
   "resolved" "https://registry.npmjs.org/path-key/-/path-key-3.1.1.tgz"
   "version" "3.1.1"
 
+"path-parse@^1.0.6":
+  "integrity" "sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw=="
+  "resolved" "https://registry.npmjs.org/path-parse/-/path-parse-1.0.7.tgz"
+  "version" "1.0.7"
+
 "path-to-regexp@0.1.7":
   "integrity" "sha1-32BBeABfUi8V60SQ5yR6G/qmf4w="
   "resolved" "https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-0.1.7.tgz"
   "version" "0.1.7"
+
+"phonegap-plugin-barcodescanner@^8.1.0":
+  "integrity" "sha512-WQCDCoH9EQ9WEn2bce+B95jbNJduilAn2Vtske8KfcYAeGu7bdFqRD7zGCLCQao62VwoEwlX0cUvbQ/am12Jwg=="
+  "resolved" "https://registry.npmjs.org/phonegap-plugin-barcodescanner/-/phonegap-plugin-barcodescanner-8.1.0.tgz"
+  "version" "8.1.0"
+  dependencies:
+    "nopt" "^4.0.1"
+    "shelljs" "^0.8.3"
 
 "picomatch@^2.2.3":
   "integrity" "sha512-lY1Q/PiJGC2zOv/z391WOTD+Z02bCgsFfvxoXXf6h7kv9o+WmsmzYqrAwY63sNgOxE4xEdq0WyUnXfKeBrSvYw=="
@@ -1040,6 +1077,21 @@
   dependencies:
     "pify" "^4.0.1"
     "with-open-file" "^0.1.6"
+
+"rechoir@^0.6.2":
+  "integrity" "sha1-hSBLVNuoLVdC4oyWdW70OvUOM4Q="
+  "resolved" "https://registry.npmjs.org/rechoir/-/rechoir-0.6.2.tgz"
+  "version" "0.6.2"
+  dependencies:
+    "resolve" "^1.1.6"
+
+"resolve@^1.1.6":
+  "integrity" "sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A=="
+  "resolved" "https://registry.npmjs.org/resolve/-/resolve-1.20.0.tgz"
+  "version" "1.20.0"
+  dependencies:
+    "is-core-module" "^2.2.0"
+    "path-parse" "^1.0.6"
 
 "reusify@^1.0.4":
   "integrity" "sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw=="
@@ -1147,6 +1199,15 @@
   "integrity" "sha1-xUmCuZbHbvDB5rWfvcWCX1txMRM="
   "resolved" "https://registry.npmjs.org/shelljs/-/shelljs-0.5.3.tgz"
   "version" "0.5.3"
+
+"shelljs@^0.8.3":
+  "integrity" "sha512-7gk3UZ9kOfPLIAbslLzyWeGiEqx9e3rxwZM0KE6EL8GlGwjym9Mrlx5/p33bWTu9YG6vcS4MBxYZDHYr5lr8BQ=="
+  "resolved" "https://registry.npmjs.org/shelljs/-/shelljs-0.8.4.tgz"
+  "version" "0.8.4"
+  dependencies:
+    "glob" "^7.0.0"
+    "interpret" "^1.0.0"
+    "rechoir" "^0.6.2"
 
 "signal-exit@^3.0.2":
   "integrity" "sha512-sDl4qMFpijcGw22U5w63KmD3cZJfBuFlVNbVMKje2keoKML7X2UzWbc4XrmEbDwg0NXJc3yv4/ox7b+JWb57kQ=="

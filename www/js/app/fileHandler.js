@@ -21,7 +21,7 @@ const fileHandler={
             var reader = new FileReader();
     
             reader.onloadend = function() {
-                console.log("Successful file read: ",fileEntry.toURL());
+                // console.log("Successful file read: ",fileEntry.toURL());
                 onSuccessReadFile(this.result)
                 // displayFileData(fileEntry.fullPath + ": " + this.result);
             };

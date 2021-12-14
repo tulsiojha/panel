@@ -9,23 +9,18 @@
     <link rel="stylesheet" href="./css/bootstrap.min.css" type="text/css" />
 
     <link rel="stylesheet" href="./css/index.css" type="text/css" />
-    <link rel="stylesheet" href="./css/bootstrap-icons.css" type="text/css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css"
-    />
+    <!-- <link rel="stylesheet" href="./css/bootstrap-icons.css" type="text/css" /> -->
     <script src="./js/angular.min.js"></script>
+    <script src="./js/leaflet/leaflet.js"></script>
 
+    <link rel="stylesheet" href="./js/leaflet/leaflet.css">
+    
     <script src="./js/app/app.module.js"></script>
+    <script src="./js/app/app.service.js"></script>
+    
     <script src="./js/release/angular-ui-router.min.js"></script>
+
+
     <script src="./js/app/builder/builder.module.js"></script>
     <script src="./js/app/builder/builder.component.js"></script>
     <script src="./js/app/derived/derived.module.js"></script>
@@ -36,10 +31,16 @@
     <script src="./js/app/templates/templates.component.js"></script>
     <script src="./js/app/forms/forms.module.js"></script>
     <script src="./js/app/forms/forms.component.js"></script>
+    <script src="./js/app/formview/formview.module.js"></script>
+    <script src="./js/app/formview/formview.component.js"></script>
 
     <script src="./js/app/databaseHandler.js"></script>
     <script src="./js/app/fileHandler.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+    <script src="./js/signature_pad.min.js"></script>
+
+
+
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVUgu-VLDVFMHqk63h8pIiOcXpGcW6WsA&callback=initializeMap"></script> -->
   </head>
 
   <body ng-controller="mainCtrl">
@@ -95,6 +96,7 @@
         </div>
       </div>
     </nav>
+    <leaflet lf-center="berlin" layers="layers"  controls="controls"  markers="markers" height="480px" width="100%"></leaflet>
     <div class="container pb-2" style="padding-top: 60px" ui-view></div>
     <script src="cordova.js"></script>
     <script src="./js/bootstrap.bundle.min.js"></script>

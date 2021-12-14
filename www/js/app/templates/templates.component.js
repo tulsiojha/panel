@@ -56,6 +56,9 @@ angular.module("templates").component("templates", {
       false
     );
 
+
+
+
     $scope.openTemplate = function (index) {
       $state.go("builder", {
         id: $scope.templates[index].id,

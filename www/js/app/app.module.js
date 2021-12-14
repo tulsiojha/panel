@@ -5,6 +5,8 @@ var routerApp = angular.module("Home", [
   "controls",
   "templates",
   "forms",
+  "formview",
+  
 ]);
 
 routerApp.config([
@@ -43,6 +45,11 @@ routerApp.config([
         url: "/froms",
         template: "<forms></forms>",
         // deepStateRedirect: { default: { state: 'dashboard.home.main' } },
+      })
+      .state("formview", {
+        url: "/formview/:id",
+        template: "<formview></formview>",
+        // deepStateRedirect: { default: { state: 'dashboard.home.main' } },
       });
   },
 ]);
@@ -76,6 +83,8 @@ routerApp.controller("mainCtrl", [
       },
       false
     );
+
+    
 
     $scope.hideOffCanvas = function () {
       offCanvas.hide();

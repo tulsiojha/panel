@@ -1,32 +1,33 @@
-angular.module("forms").component("forms", {
-  templateUrl: "./js/app/forms/forms.template.html",
-  controller: function ($scope, $state, $http, panelUtils) {
+angular.module("formview").component("formview", {
+  templateUrl: "./js/app/formview/formview.template.html",
+  controller: function ($scope, $state, $stateParams, $http, panelUtils) {
     
+    $scope.formId = $stateParams.id
     $scope.panelUtils = panelUtils;
 
-    $scope.templates = [];
+    $scope.template = {};
 
 
-    $scope.form_name = "Forms";
-    
+    $scope.form_name = "Form View";
+
     $scope.loading = true;
 
-
     const init = () => {
-      databaseHandler.listFormWithTemplate(async function (result) {
+      console.log("form id: ",$scope.formId);
+      databaseHandler.listFormWithTemplateByID($scope.formId, async function (result) {
 
-        for (let i = 0; i < result.rows.length; i++) {
-          console.log("forms: ",result.rows.item(i));
-          await loadValues(result.rows.item(i));
+        if(result.rows.length >0){
+          await loadValues(result.rows.item(0));
+          $scope.loading = false;
+          $scope.$apply();
         }
-        $scope.loading = false;
-        $scope.$apply();
-        // console.log("formWithTemplate", $scope.templates);
+        
+        // console.log("formWithTemplate", $scope.template);
       });
     };
 
     const loadValues = async (item) => {
-      // console.log(item);
+      console.log(item);
       var jsonArray = []
       const values = JSON.parse(item.formJson);
       for (let [key, value] of Object.entries(values)) {
@@ -35,17 +36,17 @@ angular.module("forms").component("forms", {
         if (value.type === "sign" || value.type === "image") {
           const name = await loadFile(value.data, "template_", item.formTemplateId);
           values[key].data = name;
-        // console.log(name);
+        console.log(name);
 
         }
 
         jsonArray.push({name:key, json:value})
-        console.log(jsonArray);
+
       }
 
 
-      $scope.templates.push({templateName:item.name, id:item.id, templateId:item.formTemplateId ,formJson:jsonArray});
-      // console.log(item);
+      $scope.template = {templateName:item.name, templateId:item.formTemplateId ,formJson:jsonArray};
+      console.log($scope.template);
 
     };
 
@@ -58,16 +59,10 @@ angular.module("forms").component("forms", {
       false
     );
 
-
-    $scope.onFormClicked = function(index){
-      console.log("form clicked..",index,{id:$scope.templates[index].id});
-      // console.log();
-      $state.go("formview",{id:$scope.templates[index].id})
-    }
     // $scope.createTemplate=function() {
     //   var random = Math.floor((Math.random() * 6) + 1)-1
     //   $state.go("form",{id:-1,color:random})
-    //   // console.log($scope.templates);
+    //   // console.log($scope.template);
     // }
 
 

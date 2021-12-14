@@ -1,6 +1,7 @@
 angular.module("builder").component("builder", {
   templateUrl: "./js/app/builder/builder.template.html",
-  controller: function ($scope, $state, $stateParams, $http, $window) {
+  controller: function ($scope, $state, $stateParams, panelUtils) {
+    $scope.panelUtils = panelUtils;
     $scope.form_name = "Builder";
     $scope.errorMessage = "";
 
@@ -10,6 +11,8 @@ angular.module("builder").component("builder", {
       { name: "file", bg: "btn-danger" },
       { name: "image", bg: "btn-success" },
       { name: "sign", bg: "btn-warning" },
+      { name: "map", bg: 'btn-dark' },
+      { name: "scanner", bg: 'btn-light' },
     ];
 
     $scope.multipleNames = [];
@@ -18,9 +21,6 @@ angular.module("builder").component("builder", {
     $scope.form_name = "";
     $scope.elementsToRender = [];
     $scope.currentElement;
-
-    $scope.colorBold = "hsl(216, 98%, 52%)";
-    $scope.colorLight = "hsl(216, 98%, 52%, 40%)";
 
     $scope.selectedWidth = { id: "0", value: "col-1" };
     $scope.width = [

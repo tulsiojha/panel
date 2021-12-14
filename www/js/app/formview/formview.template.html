@@ -9,24 +9,24 @@
       </div>
    </div>
 </div>
-<div class="vh-100">
-   <div ng-if="loading" class="d-flex justify-content-center">
-      <div class="spinner-border" role="status">
-         <span class="visually-hidden">Loading...</span>
-      </div>
+<div ng-if="loading" class="d-flex justify-content-center">
+   <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
    </div>
-   <div class="card mb-2" ng-repeat="t in templates | orderBy:'formTemplateId'" ng-click="onFormClicked($index)">
+</div>
+<div ng-if="!loading" class="vh-100">
+   <div class="card mb-2">
       <div class="d-flex flex-row">
          <div style="width:10px; border-top-left-radius:4px;" ng-style="{background:panelUtils.colorBold}"></div>
          <a style="border-top-right-radius:4px;" class="fw-bold p-2 d-block text-decoration-none w-100"
             ng-style="{background:panelUtils.colorLight,color:panelUtils.colorBold}" data-bs-toggle="collapse"
             href="#collapseContent" aria-expanded="false" aria-controls="collapseContent">
-            {{t.templateName}}
+            {{template.templateName}}
          </a>
       </div>
       <div class="card-body border-bottom">
          <div>
-            <div ng-click="selectedElement($index)" ng-repeat="ele in t.formJson | limitTo:1" class="render-element">
+            <div ng-click="selectedElement($index)" ng-repeat="ele in template.formJson" class="render-element">
                <div ng-switch="ele.json.type">
                   <div ng-switch-when="input">
                      <label class="form-label">{{ele.name}}</label>
@@ -68,7 +68,7 @@
                      </div>
                      <div ng-class="ele.class" class="card p-2 position-relative"><img ng-src="{{ele.json.data}}"
                            src="img/user.svg" /></div>
-                     <!-- {{values[ele.element_id]}} -->
+                     <!-- {{values[elementsToRender[$index].element_id]}} -->
                   </div>
 
                   <div style="min-width: 50%;" ng-switch-when="sign">
@@ -107,11 +107,12 @@
                      </div>
                   </div>
 
+
+
                   <div class="" ng-switch-when="radio">
                      <label class="form-label d-block mt-2">{{ele.name}}</label>
                      <input ng-class="ele.class" class="form-check-input" type="radio" />
                   </div>
-
                </div>
                </button>
             </div>

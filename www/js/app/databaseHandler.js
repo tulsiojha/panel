@@ -269,8 +269,24 @@ const databaseHandler = {
   listFormWithTemplate: function (callback) {
     this.db.transaction(function (tx) {
       tx.executeSql(
-        "SELECT * FROM form INNER JOIN FormTemplate ON form.formtemplateid = FormTemplate.id",
+        "SELECT form.id, form.formJson, FormTemplate.id as formTemplateId, FormTemplate.name, FormTemplate.description, FormTemplate.color FROM form INNER JOIN FormTemplate ON form.formtemplateid = FormTemplate.id",
         [],
+        function (tx, res) {
+          // console.log("Result",res);
+          callback(res);
+        },
+        function (error) {
+          console.log("error listing: ", error.message);
+        }
+      );
+    });
+  },
+  
+  listFormWithTemplateByID: function (id, callback) {
+    this.db.transaction(function (tx) {
+      tx.executeSql(
+        "SELECT form.id, form.formJson, FormTemplate.id as formTemplateId, FormTemplate.name, FormTemplate.description, FormTemplate.color FROM form INNER JOIN FormTemplate ON form.formtemplateid = FormTemplate.id WHERE form.id=?",
+        [id],
         function (tx, res) {
           // console.log("Result",res);
           callback(res);
