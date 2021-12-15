@@ -98,11 +98,11 @@ const databaseHandler = {
       );
     });
   },
-  updateForm: function (formJson, formTemplateId, callback) {
+  updateForm: function (formJson, formTemplateId, formId, callback) {
     this.db.transaction(function (tx) {
       tx.executeSql(
-        "UPDATE form SET formJson=? WHERE formTemplateId=?",
-        [formJson, formTemplateId],
+        "UPDATE form SET formJson=? WHERE formTemplateId=? AND id=?",
+        [formJson, formTemplateId,formId],
         function (tx, res) {
           callback(res);
           console.log("Insert Successful");

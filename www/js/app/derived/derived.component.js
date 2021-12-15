@@ -3,6 +3,11 @@ angular.module("derived").component("derived", {
   controller: function ($scope, $rootScope, $state, $stateParams, panelUtils) {
     $scope.form_name = "";
 
+    $scope.edit = $stateParams.edit;
+    $scope.formId = $stateParams.formId;
+
+    console.log($stateParams.edit, $stateParams.formId);
+
     $scope.panelUtils = panelUtils;
 
     $scope.elementsToRender = [];
@@ -55,7 +60,7 @@ angular.module("derived").component("derived", {
 
     var mapModal = new bootstrap.Modal(
       document.getElementById("mapModal"),
-      {keyboard: false}
+      { keyboard: false }
     );
 
     var errorModal = new bootstrap.Modal(
@@ -314,15 +319,28 @@ angular.module("derived").component("derived", {
       //   }
       // );
 
-      databaseHandler.insertForm(
-        $scope.formTemplateId,
-        JSON.stringify(tempJson),
-        function (result) {
-          console.log("insert form..");
-          // progressModal.hide()
-          $state.go("New Form");
-        }
-      );
+      if ($scope.edit && $scope.formId > 0) {
+        databaseHandler.updateForm(
+          JSON.stringify(tempJson),
+          $scope.formTemplateId,
+          $scope.formId,
+          function (result) {
+            console.log("update form.. complete");
+            // progressModal.hide()
+            $state.go("formview", { id: $scope.formId });
+          }
+        );
+      } else {
+        databaseHandler.insertForm(
+          $scope.formTemplateId,
+          JSON.stringify(tempJson),
+          function (result) {
+            console.log("insert form..");
+            // progressModal.hide()
+            $state.go("New Form");
+          }
+        );
+      }
     };
 
     const saveDataFile = async (name, data, id) => {
@@ -515,14 +533,19 @@ angular.module("derived").component("derived", {
         }
       );
 
-      // databaseHandler.listFormByFormTemplateID(
-      //   $scope.formTemplateId,
-      //   function (result) {
-      //     if (result.rows.length > 0) {
-      //       loadValues(result.rows.item(0));
-      //     }
-      //   }
-      // );
+      if ($scope.edit && $scope.formId > 0) {
+        databaseHandler.listFormWithTemplateByID($scope.formId, async function (result) {
+
+          if (result.rows.length > 0) {
+            await loadValues(result.rows.item(0));
+            $scope.loading = false;
+            $scope.$apply();
+          }
+
+          // console.log("formWithTemplate", $scope.template);
+        });
+      }
+
 
       var myModal = document.getElementById('mapModal')
       myModal.addEventListener('shown.bs.modal', function () {
@@ -635,7 +658,11 @@ angular.module("derived").component("derived", {
     }
 
     $scope.onCancelClicked = function () {
-      $state.go("New Form");
+      if ($scope.edit && $scope.formId > 0) {
+        $state.go("formview", { id: $scope.formId });
+      } else {
+        $state.go("New Form");
+      }
     };
 
     $scope.mapIndex = -1;
@@ -674,9 +701,14 @@ angular.module("derived").component("derived", {
         console.log(error);
       }
       console.log("init map");
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      // }).addTo($scope.map);
+
+      L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
       }).addTo($scope.map);
+
       onDeviceReady()
 
       // setTimeout(function () {
@@ -703,14 +735,14 @@ angular.module("derived").component("derived", {
 
     var onGetLocation = function (position) {
       // position.coords.latitude + "&lon=" + position.coords.longitude
-      
-      if(!$scope.marker){
+
+      if (!$scope.marker) {
         $scope.map.flyTo([position.coords.latitude, position.coords.longitude], 13)
         $scope.marker = L.marker([position.coords.latitude, position.coords.longitude], { draggable: 'true', autoPan: true }).addTo($scope.map);
-      }else{
+      } else {
         $scope.map.flyTo([$scope.marker.getLatLng().lat, $scope.marker.getLatLng().lng], 13)
       }
-        
+
 
 
       $scope.map.on("click", function (e) {

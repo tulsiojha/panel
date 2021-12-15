@@ -32,7 +32,8 @@ routerApp.config([
         url: "/derived/:id",
         template: "<derived></derived>",
         params: {
-          color: 0,
+          edit: false,
+          formId:-1
         },
         // deepStateRedirect: { default: { state: 'dashboard.home.main' } },
       })

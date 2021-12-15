@@ -1,7 +1,7 @@
 angular.module("formview").component("formview", {
   templateUrl: "./js/app/formview/formview.template.html",
   controller: function ($scope, $state, $stateParams, $http, panelUtils) {
-    
+    $scope.formTemplateId=-1;
     $scope.formId = $stateParams.id
     $scope.panelUtils = panelUtils;
 
@@ -44,7 +44,7 @@ angular.module("formview").component("formview", {
 
       }
 
-
+      $scope.formTemplateId = item.formTemplateId;
       $scope.template = {templateName:item.name, templateId:item.formTemplateId ,formJson:jsonArray};
       console.log($scope.template);
 
@@ -65,6 +65,10 @@ angular.module("formview").component("formview", {
     //   // console.log($scope.template);
     // }
 
+
+    $scope.editData = function() {
+      $state.go("derived",{id:$scope.formTemplateId,edit:true, formId:$scope.formId})
+    }
 
 
     const loadFile = async (fileName, dirName, id) => {
