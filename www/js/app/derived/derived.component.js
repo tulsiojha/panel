@@ -3,6 +3,9 @@ angular.module("derived").component("derived", {
   controller: function ($scope, $rootScope, $state, $stateParams, panelUtils) {
     $scope.form_name = "";
 
+
+  
+
     $scope.edit = $stateParams.edit;
     $scope.formId = $stateParams.formId;
 
@@ -55,16 +58,6 @@ angular.module("derived").component("derived", {
 
     var progressModal = new bootstrap.Modal(
       document.getElementById("progressModal"),
-      {}
-    );
-
-    var mapModal = new bootstrap.Modal(
-      document.getElementById("mapModal"),
-      { keyboard: false }
-    );
-
-    var errorModal = new bootstrap.Modal(
-      document.getElementById("errorModal"),
       {}
     );
 
@@ -243,7 +236,7 @@ angular.module("derived").component("derived", {
               item.type +
               " is empty. Please enter required value.";
             shouldForward = false;
-            errorModal.show();
+            panelUtils.getErrorModal().show();
             return;
           }
         } else {
@@ -254,7 +247,7 @@ angular.module("derived").component("derived", {
             item.type +
             " is empty. Please enter required value.";
           shouldForward = false;
-          errorModal.show();
+          panelUtils.getErrorModal().show();
           return;
         }
       });
@@ -548,12 +541,36 @@ angular.module("derived").component("derived", {
 
 
       var myModal = document.getElementById('mapModal')
+      var errorModal = document.getElementById('errorModal')
+     
       myModal.addEventListener('shown.bs.modal', function () {
+        panelUtils.mapModalIsOpened = true;
         $scope.onInit()
         console.log("mapModal Show");
         setTimeout(function () {
           $scope.map.invalidateSize();
         }, 1);
+      })
+
+      myModal.addEventListener('show.bs.modal', function () {
+        panelUtils.mapModalIsOpened = true;
+      })
+
+      myModal.addEventListener('hidden.bs.modal', function () {
+        panelUtils.mapModalIsOpened = false;
+      })
+
+
+      errorModal.addEventListener('shown.bs.modal', function () {
+        panelUtils.errorModalIsOpened = true;
+      })
+
+      errorModal.addEventListener('show.bs.modal', function () {
+        panelUtils.errorModalIsOpened = true;
+      })
+
+      errorModal.addEventListener('hidden.bs.modal', function () {
+        panelUtils.errorModalIsOpened = false;
       })
 
     };
@@ -764,6 +781,29 @@ angular.module("derived").component("derived", {
     const handleSuccess = () => {
       navigator.geolocation.getCurrentPosition(onGetLocation, onLocationFailed);
     }
+
+
+    document.addEventListener("backbutton", function(e) {
+      console.log("backPressed");
+      console.log(panelUtils.mapModalIsOpened);
+      
+      if (panelUtils.mapModalIsOpened || panelUtils.errorModalIsOpened) {
+        panelUtils.getMapModal().hide()
+        panelUtils.getErrorModal().hide()
+        e.preventDefault()
+        return
+      }else{
+        if ($state.is("derived")) {
+          if ($scope.edit && $scope.formId >0 ) {
+            $state.go("formview", { id: $scope.formId });
+          }else{
+            console.log("move to newForm");
+            $state.go("New Form", {})  
+          }
+        }        
+      }
+      console.log();
+    },false)
 
   },
 });

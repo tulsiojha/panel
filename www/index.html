@@ -12,6 +12,7 @@
     <!-- <link rel="stylesheet" href="./css/bootstrap-icons.css" type="text/css" /> -->
     <script src="./js/angular.min.js"></script>
     <script src="./js/leaflet/leaflet.js"></script>
+    <script src="./js/jquery-3.6.0.min.js"></script>
 
     <link rel="stylesheet" href="./js/leaflet/leaflet.css">
     
@@ -33,6 +34,10 @@
     <script src="./js/app/forms/forms.component.js"></script>
     <script src="./js/app/formview/formview.module.js"></script>
     <script src="./js/app/formview/formview.component.js"></script>
+    <script src="./js/app/datasets/datasets.module.js"></script>
+    <script src="./js/app/datasets/datasets.component.js"></script>
+    <script src="./js/app/datasetform/datasetform.module.js"></script>
+    <script src="./js/app/datasetform/datasetform.component.js"></script>
 
     <script src="./js/app/databaseHandler.js"></script>
     <script src="./js/app/fileHandler.js"></script>
@@ -89,6 +94,15 @@
                   ui-sref="forms"
                   ui-sref-active="active"
                   >Form</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  ng-click="hideOffCanvas()"
+                  ui-sref="datasets"
+                  ui-sref-active="active"
+                  >Datasets</a
                 >
               </li>
             </ul>

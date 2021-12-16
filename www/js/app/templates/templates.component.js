@@ -72,5 +72,15 @@ angular.module("templates").component("templates", {
       $state.go("builder", { id: -1, color: random });
       // console.log($scope.templates);
     };
+
+
+    document.addEventListener("backbutton", function(e) {
+      console.log("backPressed");
+      if ($state.is("templates")) {
+        console.log("exit app");
+        navigator.app.exitApp()  
+      }
+      console.log();
+    },false);
   },
 });

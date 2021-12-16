@@ -36,6 +36,19 @@ const databaseHandler = {
             console.log("Error creating table form: ", error.message);
           }
         );
+
+        tx.executeSql(
+          "CREATE TABLE IF NOT EXISTS datasets(id integer primary key, name text, attribute1 text, attribute2 text, attribute3 text, attribute4 text, displayfieldname text, keyfieldname text)",
+          [],
+          function (tx, result) {},
+          function (error) {
+            console.log(
+              "Error creating table fielddefinition: ",
+              error.message
+            );
+          }
+        );
+
       },
       function (error) {
         console.log("Error in table transaction: ", error.message);
@@ -293,6 +306,79 @@ const databaseHandler = {
         },
         function (error) {
           console.log("error listing: ", error.message);
+        }
+      );
+    });
+  },
+  insertDataset: function (name, attribute1, attribute2, attribute3, attribute4, displayfieldname, keyfieldname, callback) {
+    this.db.transaction(function (tx) {
+      tx.executeSql(
+        "INSERT INTO datasets (name, attribute1, attribute2, attribute3, attribute4, displayfieldname, keyfieldname) VALUES(?,?,?,?,?,?,?)",
+        [name, attribute1, attribute2, attribute3, attribute4, displayfieldname, keyfieldname],
+        function (tx, res) {
+          console.log("Insert dataset success",name, attribute1, attribute2, attribute3, attribute4, displayfieldname, keyfieldname);
+          callback(res);
+        },
+        function (error) {
+          console.log("error inserting dataset: ", error);
+        }
+      );
+    });
+  },
+  listDatasets: function (callback) {
+    this.db.transaction(function (tx) {
+      tx.executeSql(
+        "SELECT * FROM datasets",
+        [],
+        function (tx, res) {
+          callback(res);
+        },
+        function (error) {
+          console.log("error listing datasets: ", error.message);
+        }
+      );
+    });
+  },
+  listDatasetsByID: function (id, callback) {
+    this.db.transaction(function (tx) {
+      tx.executeSql(
+        "SELECT * FROM datasets where id=?",
+        [id],
+        function (tx, res) {
+          callback(res);
+          // console.log("");
+        },
+        function (error) {
+          console.log("error listing datasets: ", error.message);
+        }
+      );
+    });
+  },
+  listDatasetsByName: function (name, callback) {
+    this.db.transaction(function (tx) {
+      tx.executeSql(
+        "SELECT * FROM datasets where name=?",
+        [name],
+        function (tx, res) {
+          callback(res);
+        },
+        function (error) {
+          console.log("error listing datasets: ", error.message);
+        }
+      );
+    });
+  },
+  updateDataset: function (id, name, attribute1, attribute2, attribute3, attribute4, displayfieldname, keyfieldname, callback) {
+    this.db.transaction(function (tx) {
+      tx.executeSql(
+        "UPDATE datasets SET name=?, attribute1=?, attribute2=?, attribute3=?, attribute4=?, displayfieldname=?, keyfieldname=? WHERE id=?",
+        [name, attribute1, attribute2, attribute3, attribute4, displayfieldname, keyfieldname, id],
+        function (tx, res) {
+          console.log("update the dataset with id: ", id);
+          callback(res);
+        },
+        function (error) {
+          console.log("error updating dataset: ", error);
         }
       );
     });

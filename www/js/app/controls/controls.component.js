@@ -67,5 +67,16 @@ angular.module("controls").component("controls", {
     //   $state.go("form",{id:-1,color:random})
     //   // console.log($scope.templates);
     // }
+
+
+
+    document.addEventListener("backbutton", function(e) {
+      console.log("backPressed");
+      if ($state.is("New Form")) {
+        console.log("exit app");
+        navigator.app.exitApp()  
+      }
+      console.log();
+    },false)
   },
 });

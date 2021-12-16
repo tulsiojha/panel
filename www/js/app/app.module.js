@@ -6,6 +6,8 @@ var routerApp = angular.module("Home", [
   "templates",
   "forms",
   "formview",
+  "datasets",
+  "datasetform"
   
 ]);
 
@@ -31,6 +33,7 @@ routerApp.config([
       .state("derived", {
         url: "/derived/:id",
         template: "<derived></derived>",
+        // cache:false,
         params: {
           edit: false,
           formId:-1
@@ -39,6 +42,7 @@ routerApp.config([
       })
       .state("New Form", {
         url: "/controls",
+        // cache:false,
         template: "<controls></controls>",
         // deepStateRedirect: { default: { state: 'dashboard.home.main' } },
       })
@@ -50,6 +54,16 @@ routerApp.config([
       .state("formview", {
         url: "/formview/:id",
         template: "<formview></formview>",
+        // deepStateRedirect: { default: { state: 'dashboard.home.main' } },
+      })
+      .state("datasets", {
+        url: "/datasets",
+        template: "<datasets></datasets>",
+        // deepStateRedirect: { default: { state: 'dashboard.home.main' } },
+      })
+      .state("datasetform", {
+        url: "/datasetform/:id",
+        template: "<datasetform></datasetform>",
         // deepStateRedirect: { default: { state: 'dashboard.home.main' } },
       });
   },
@@ -71,6 +85,8 @@ routerApp.controller("mainCtrl", [
         return false;
       else return true;
     };
+
+    
 
     var offCanvas = null;
     document.addEventListener(

@@ -115,5 +115,13 @@ angular.module("forms").component("forms", {
         });
       });
     };
+    document.addEventListener("backbutton", function(e) {
+      console.log("backPressed");
+      if ($state.is("forms")) {
+        console.log("exit app");
+        navigator.app.exitApp()  
+      }
+      console.log();
+    },false);
   },
 });

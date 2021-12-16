@@ -40,11 +40,6 @@ angular.module("builder").component("builder", {
 
     $scope.formTemplateId = $stateParams.id;
 
-    var errorModal = new bootstrap.Modal(
-      document.getElementById("progressModal"),
-      {}
-    );
-
     var myCollapse = document.getElementById("collapseProperties");
     var bsCollapse = new bootstrap.Collapse(myCollapse, { toggle: false });
 
@@ -142,20 +137,20 @@ angular.module("builder").component("builder", {
       if ($scope.multipleNames.length > 0) {
         $scope.errorMessage =
           "Multiple element has same name. Please enter unique name for each element.";
-        errorModal.show();
+        panelUtils.getErrorModal().show();
         return;
       }
 
       if ($scope.emptyNames.length > 0) {
         $scope.errorMessage =
           "Some fields has empty name. Please enter unique name for each element.";
-        errorModal.show();
+          panelUtils.getErrorModal().show();
         return;
       }
 
       if ($scope.form_name === "") {
         $scope.errorMessage = "Please Enter form template name.";
-        errorModal.show();
+        panelUtils.getErrorModal().show();
         return;
       }
 
@@ -165,7 +160,7 @@ angular.module("builder").component("builder", {
           $scope.errorMessage =
             "Form Template name already exist. Please enter new name.";
           $scope.$apply();
-          errorModal.show();
+          panelUtils.getErrorModal().show();
           return;
         } else {
           if ($scope.formTemplateId <= 0) {
@@ -245,6 +240,26 @@ angular.module("builder").component("builder", {
       if ($scope.elementsToRender.length > 0) {
         $scope.$apply();
       }
+
+      var errorModal = document.getElementById('errorModal')
+
+      errorModal.addEventListener('shown.bs.modal', function () {
+        panelUtils.errorModalIsOpened = true;
+      })
+
+      errorModal.addEventListener('show.bs.modal', function () {
+        panelUtils.errorModalIsOpened = true;
+      })
+
+      errorModal.addEventListener('hidden.bs.modal', function () {
+        panelUtils.errorModalIsOpened = false;
+      })
+
+
+
+
+
+
       // $scope.$apply()
       databaseHandler.listFormTemplateByID(
         $scope.formTemplateId,
@@ -271,8 +286,29 @@ angular.module("builder").component("builder", {
           console.log($scope.elementsToRender);
         }
       );
+
+
+
     };
 
     init();
+
+
+    document.addEventListener("backbutton", function(e) {
+      console.log("backPressed");
+      console.log(panelUtils.errorModalIsOpened);
+      
+      if (panelUtils.errorModalIsOpened) {
+        panelUtils.getErrorModal().hide()
+        e.preventDefault()
+        return
+      }else{
+        if ($state.is("builder")) {
+          console.log("move to templates");
+          $state.go("templates", {})  
+        }        
+      }
+      console.log();
+    },false)
   },
 });

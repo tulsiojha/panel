@@ -36,7 +36,7 @@ angular.module("formview").component("formview", {
         if (value.type === "sign" || value.type === "image") {
           const name = await loadFile(value.data, "template_", item.formTemplateId);
           values[key].data = name;
-        console.log(name);
+          console.log(name);
 
         }
 
@@ -114,5 +114,15 @@ angular.module("formview").component("formview", {
         });
       });
     };
+
+    
+    document.addEventListener("backbutton", function(e) {
+      console.log("backPressed");
+      if ($state.is("formview")) {
+        console.log("move to Forms");
+        $state.go("forms", {})  
+      }
+      console.log();
+    },false)
   },
 });
