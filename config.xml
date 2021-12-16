@@ -24,8 +24,7 @@
         <uses-feature android:name="android.hardware.camera" />
         <uses-feature android:name="android.hardware.camera.autofocus" />
         <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application">
-            <application android:requestLegacyExternalStorage="true" />
-            
+            <application android:usesCleartextTraffic="true" android:requestLegacyExternalStorage="true" />
         </edit-config>
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <activity android:name="com.google.zxing.client.android.CaptureActivity">

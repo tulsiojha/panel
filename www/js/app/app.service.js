@@ -6,6 +6,7 @@ app.service('panelUtils', function () {
   this.errorMessage = "";
   this.mapModalIsOpened = false;
   this.errorModalIsOpened = false;
+  this.progressModalIsOpened = false;
 
   
   this.mediaIcons = {
@@ -51,5 +52,9 @@ app.service('panelUtils', function () {
 
   this.getMapModal = () => {
     return bootstrap.Modal.getOrCreateInstance(document.getElementById("mapModal"))
+  };
+
+  this.getProgressModal = () => {
+    return bootstrap.Modal.getOrCreateInstance(document.getElementById("progressModal"))
   };
 });

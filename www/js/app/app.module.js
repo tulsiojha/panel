@@ -8,7 +8,7 @@ var routerApp = angular.module("Home", [
   "formview",
   "datasets",
   "datasetform"
-  
+
 ]);
 
 routerApp.config([
@@ -36,7 +36,7 @@ routerApp.config([
         // cache:false,
         params: {
           edit: false,
-          formId:-1
+          formId: -1
         },
         // deepStateRedirect: { default: { state: 'dashboard.home.main' } },
       })
@@ -72,21 +72,13 @@ routerApp.config([
 routerApp.controller("mainCtrl", [
   "$scope",
   "$rootScope",
-  function ($scope, $rootScope) {
+  "$http",
+  "panelUtils",
+  function ($scope, $rootScope, $http, panelUtils) {
     $scope.title = "hello";
     $scope.subtitle = "hello";
 
-    $scope.showButtons = function () {
-      if (
-        $scope.title === "New Form" ||
-        $scope.title === "builder" ||
-        $scope.title === "templates"
-      )
-        return false;
-      else return true;
-    };
-
-    
+    $scope.syncSuccess = false;
 
     var offCanvas = null;
     document.addEventListener(
@@ -101,20 +93,113 @@ routerApp.controller("mainCtrl", [
       false
     );
 
-    
+
 
     $scope.hideOffCanvas = function () {
       offCanvas.hide();
-
-      console.log(bsOffcanvas);
     };
 
-    $scope.saveClicked = function () {
-      $rootScope.$emit("DerivedOnSave", {});
-    };
+    $scope.forms = [];
+    $scope.datasets = [];
 
-    $scope.cancelClicked = function () {
-      $rootScope.$emit("DerivedOnCancel", {});
-    };
+    $scope.syncData = function () {
+      $scope.syncSuccess = false;
+      $scope.hideOffCanvas();
+      panelUtils.getProgressModal().show();
+
+      $scope.forms = [];
+      $scope.datasets = [];
+
+      databaseHandler.listForm(function (forms) {
+        for (let form = 0; form < forms.rows.length; form++) {
+          $scope.forms.push(forms.rows.item(form));
+        }
+
+        databaseHandler.listDatasets(async function (datasets) {
+          for (let dataset = 0; dataset < datasets.rows.length; dataset++) {
+            $scope.datasets.push(datasets.rows.item(dataset));
+          }
+          $scope.$apply();
+          console.log("forms: ", $scope.forms);
+          console.log("datasets: ", $scope.datasets);
+          await callFormApi();
+          console.log("finished updating forms...");
+          await callDatasetApi();
+          console.log('finished updating datasets....');
+          setTimeout(() => {
+            $scope.syncSuccess = true;
+            $scope.$apply();  
+          }, 1000);
+          
+        })
+      })
+    }
+
+    const callFormApi = async () => {
+      await Promise.all($scope.forms.map(async (form)=>{
+        const exist = await httpPostMiddle("http://192.168.1.12:3000/form/getformbyformid/", "POST", {formId:form.id});
+        console.log(exist.data);
+        if(exist.data.data.message.length===0)
+        {
+          const data = {formId:form.id, formTemplateId:form.formTemplateId, formJson:form.formJson};
+          const result = await httpPostMiddle("http://192.168.1.12:3000/form/addform", "POST", data);
+          if(result.error != null){
+            return
+          }
+          console.log("Insert form: ",result);
+        }
+        else
+        {
+          const data = {formId:form.id, formTemplateId:form.formTemplateId, formJson:form.formJson};
+          const result = await httpPostMiddle("http://192.168.1.12:3000/form/updateform/"+exist.data.data.message[0].id, "PUT", data);
+          if(result.error != null){
+            return
+          }
+          console.log("Update form: ",result);
+        }
+      }));
+    }
+
+    // const data = {name:dataset.name, attribute1:dataset.attribute1, attribute2:dataset.attribute2, attribute3:dataset.attribute3, attribute4:dataset.attribute4, displayfieldname:dataset.displayfieldname, keyfieldname:dataset.keyfieldname};
+    const callDatasetApi = async () => {
+      await Promise.all($scope.datasets.map(async (dataset)=>{
+        const exist = await httpPostMiddle("http://192.168.1.12:3000/dataset/getdatasetbyname/", "POST", {name:dataset.name});
+        console.log(exist.data);
+        if(exist.data.data.message.length===0)
+        {
+          const data = {name:dataset.name, attribute1:dataset.attribute1, attribute2:dataset.attribute2, attribute3:dataset.attribute3, attribute4:dataset.attribute4, displayfieldname:dataset.displayfieldname, keyfieldname:dataset.keyfieldname};
+          const result = await httpPostMiddle("http://192.168.1.12:3000/dataset/adddataset", "POST", data);
+          if(result.error != null){
+            return
+          }
+          console.log("Insert dataset success: ",result);
+        }else{
+          const data = {name:dataset.name, attribute1:dataset.attribute1, attribute2:dataset.attribute2, attribute3:dataset.attribute3, attribute4:dataset.attribute4, displayfieldname:dataset.displayfieldname, keyfieldname:dataset.keyfieldname};
+          const result = await httpPostMiddle("http://192.168.1.12:3000/dataset/updatedataset/"+exist.data.data.message[0].id, "PUT", data);
+          if(result.error != null){
+            return
+          }
+          console.log("Update dataset success: ",result);
+        }
+
+        
+      }));
+    }
+
+    const httpPostMiddle = (url, method, data) => {
+      return new Promise((resolve, reject) => {
+        $http({
+          method: method,
+          url: url,
+          data: data,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        }).then(function (result) {
+          resolve({ error: null, data: result })
+        }, function (error) {
+          resolve({ error: error, data: null })
+        });
+      })
+    }
+
   },
 ]);
