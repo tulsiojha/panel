@@ -34,8 +34,7 @@
         <feature name="BarcodeScanner">
             <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
         </feature>
-
-
+        <resource-file src="google-services.json" target="app/google-services.json" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />

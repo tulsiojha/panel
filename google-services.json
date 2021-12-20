@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "416387118453",
+    "project_id": "panel-c3546",
+    "storage_bucket": "panel-c3546.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416387118453:android:16030b0a531fc2c06d4f3c",
+        "android_client_info": {
+          "package_name": "com.ojha.panel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416387118453-qlfs3l4gkco6ugndrfgdl7bktqh3m34l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoUHkeOMXXWwJXYE_cWiAjN1ECSIjO8rc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416387118453-qlfs3l4gkco6ugndrfgdl7bktqh3m34l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
